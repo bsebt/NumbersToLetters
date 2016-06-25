@@ -76,9 +76,6 @@ public class GUIDesign {
 		banner = new JTextField("Converting Number to Words");
 		exitb = new JButton("Exit");
 		write = new JButton("Write in English");
-//		font1 = new Font("SansSerif", Font.BOLD, 24);
-//		font2 = new Font("SansSerif", Font.PLAIN, 16);
-//		font3 = new Font("SansSerif", Font.PLAIN, 19);
 		processor = new NumberToWords.DefaultProcessor();
 
 		
@@ -90,8 +87,6 @@ public class GUIDesign {
 		
 		frame.setSize(400, 350);
 		frame.setResizable(false);
-		
-		
 
 		input.addActionListener(new ActionListener() {
 
