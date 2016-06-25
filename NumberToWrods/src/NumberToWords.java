@@ -1,26 +1,16 @@
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import java.util.List;
 
 /**
  * This class will convert numeric values into an english representation
  * 
- * For units, see : http://www.jimloy.com/math/billion.htm
- * 
  * @author Behsahd Sebthosseini
  */
 public class NumberToWords {
+	
+	
+	
 
 	static public class ScaleUnit {
 		private int exponent;
@@ -40,9 +30,6 @@ public class NumberToWords {
 		}
 	}
 
-	/**
-	 * See http://www.wordiq.com/definition/Names_of_large_numbers
-	 */
 	static private ScaleUnit[] SCALE_UNITS = new ScaleUnit[] { new ScaleUnit(63, "vigintillion", "decilliard"),
 			new ScaleUnit(60, "novemdecillion", "decillion"), new ScaleUnit(57, "octodecillion", "nonilliard"),
 			new ScaleUnit(54, "septendecillion", "nonillion"), new ScaleUnit(51, "sexdecillion", "octilliard"),
@@ -92,10 +79,6 @@ public class NumberToWords {
 		}
 	}
 
-	/**
-	 * Change this scale to support American and modern British value (short
-	 * scale) or Traditional British value (long scale)
-	 */
 	static public Scale SCALE = Scale.SHORT;
 
 	static abstract public class AbstractProcessor {
@@ -350,93 +333,9 @@ public class NumberToWords {
 	}
 
 	static public AbstractProcessor processor;
-
-	public static void main(String... args) {
-
+	
+	public NumberToWords() {
+		
 		processor = new DefaultProcessor();
-
-		JFrame frame = new JFrame("Convertor");
-		JPanel panel = new JPanel(null);
-		JTextField input = new JTextField("");
-		JTextArea output = new JTextArea("");
-		JTextField inputLabel = new JTextField("Input number:");
-		JTextField outputlabel = new JTextField("Output:");
-		JTextField banner = new JTextField("Converting Number to Words");
-		Font font1 = new Font("SansSerif", Font.BOLD, 24);
-		Font font2 = new Font("SansSerif", Font.PLAIN, 16);
-		Font font3 = new Font("SansSerif", Font.PLAIN, 19);
-		banner.setFont(font1);
-		inputLabel.setFont(font2);
-		outputlabel.setFont(font2);
-		input.setFont(font3);
-		output.setFont(font3);
-
-		frame.setSize(400, 300);
-		frame.setResizable(false);
-
-		input.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try{
-					if (input.getText().contains(".")) {
-						String s = input.getText().substring(input.getText().indexOf('.') + 1, input.getText().length());
-						if (s.contains(".")) {
-							JOptionPane.showMessageDialog(frame,
-									"You have entered more than one decimal points \n "
-											+ "please make sure your number contains only one \".\"",
-									"Too Many dots", JOptionPane.WARNING_MESSAGE);
-							input.setText("");
-							output.setText("");
-						} else if (s.length() == 1) {
-							s = s + "0";
-							output.setText(processor.getName(input.getText().substring(0, input.getText().indexOf('.')))
-									+ " dollars " + "and " + processor.getName(s) + " cents ");
-						}else{
-							output.setText(processor.getName(input.getText().substring(0, input.getText().indexOf('.')))
-									+ " dollars " + "and " + processor.getName(s) + " cents ");
-						}
-					} else if (input.getText().isEmpty())
-						output.setText("");
-					else
-						output.setText(processor.getName(input.getText()) + " dollars ");
-				}catch(NumberFormatException e1){
-					JOptionPane.showMessageDialog(frame,
-							"You have entered letters in the input box \n please make sure you ONLY user numbers and \".\"",
-							"letters in input", JOptionPane.WARNING_MESSAGE);
-					input.setText("");
-					output.setText("");
-				}
-			}
-		});
-		panel.setSize(400, 400);
-		input.setBounds(50, 90, 300, 50);
-		output.setEditable(false);
-		output.setBounds(50, 170, 300, 100);
-		inputLabel.setEditable(false);
-		inputLabel.setBounds(50, 65, 150, 30);
-		inputLabel.setBackground(Color.black);
-		inputLabel.setForeground(Color.green);
-		outputlabel.setBounds(50, 125, 100, 60);
-		outputlabel.setBackground(Color.black);
-		outputlabel.setForeground(Color.cyan);
-		outputlabel.setEditable(false);
-		inputLabel.setEditable(false);
-		output.setLineWrap(true);
-		banner.setBackground(Color.black);
-		banner.setForeground(Color.yellow);
-		banner.setEditable(false);
-		banner.setBounds(12, 10, 400, 50);
-		// banner.setHorizontalAlignment(JTextField.RIGHT);
-		panel.add(input);
-		panel.add(output);
-		panel.add(inputLabel);
-		panel.add(outputlabel);
-		panel.add(banner);
-		frame.add(panel);
-		panel.setBackground(Color.black);
-		frame.setVisible(true);
-
 	}
-
 }
