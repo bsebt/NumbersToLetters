@@ -10,25 +10,78 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
+
 
 public class GUIDesign {
+	
+	static NumberToWords.DefaultProcessor processor = new NumberToWords.DefaultProcessor();
+	static JFrame frame = new JFrame("Convertor");
+	static JPanel panel = new JPanel(null);
+	static JTextField input = new JTextField("");
+	static JTextArea output = new JTextArea("");
+	static JTextField inputLabel = new JTextField("Input number:");
+	static JTextField outputlabel = new JTextField("English Representation:");
+	static JTextField banner = new JTextField("Converting Number to Words");
+	static JButton exitb = new JButton("Exit");
+	static JButton write = new JButton("Write in English");
+	static Font font1 = new Font("SansSerif", Font.BOLD, 24);
+	static Font font2 = new Font("SansSerif", Font.PLAIN, 16);
+	static Font font3 = new Font("SansSerif", Font.PLAIN, 19);
+	
+	public static void convert(){
+		try {
+			if(input.getText().length() == 1 && input.getText() == ".") {
+				output.setText("no numbers");
+			} else if (input.getText().contains(".")) {
+				String s = input.getText().substring(input.getText().indexOf('.') + 1,
+						input.getText().length());
+				if (s.contains(".")) {
+					JOptionPane.showMessageDialog(frame,
+							"You have entered more than one decimal points \n "
+									+ "please make sure your number contains only one \".\"",
+							"Too Many dots", JOptionPane.WARNING_MESSAGE);
+					input.setText("");
+					output.setText("");
+				}else if (s.length() == 1) {
+					s = s + "0";
+					output.setText(processor.getName(input.getText().substring(0, input.getText().indexOf('.')))
+							+ " dollars " + "and " + processor.getName(s) + " cents ");
+				} else {
+					output.setText(processor.getName(input.getText().substring(0, input.getText().indexOf('.')))
+							+ " dollars " + "and " + processor.getName(s) + " cents ");
+				}
+			} else if (input.getText().isEmpty())
+				output.setText("");
+			else
+				output.setText(processor.getName(input.getText()) + " dollars ");
+		} catch (NumberFormatException e1) {
+			JOptionPane.showMessageDialog(frame,
+					"You have entered letters in the input box \n please make sure you ONLY user numbers and \".\"",
+					"letters in input", JOptionPane.WARNING_MESSAGE);
+			input.setText("");
+			output.setText("");
+		}
+	}
 
 	public static void main(String... args) {
+		
+		
+		frame = new JFrame("Convertor");
+		panel = new JPanel(null);
+		input = new JTextField("");
+		output = new JTextArea("");
+		inputLabel = new JTextField("Input number:");
+		outputlabel = new JTextField("English Representation:");
+		banner = new JTextField("Converting Number to Words");
+		exitb = new JButton("Exit");
+		write = new JButton("Write in English");
+//		font1 = new Font("SansSerif", Font.BOLD, 24);
+//		font2 = new Font("SansSerif", Font.PLAIN, 16);
+//		font3 = new Font("SansSerif", Font.PLAIN, 19);
+		processor = new NumberToWords.DefaultProcessor();
 
-		NumberToWords.DefaultProcessor processor = new NumberToWords.DefaultProcessor();
-
-		JFrame frame = new JFrame("Convertor");
-		JPanel panel = new JPanel(null);
-		JTextField input = new JTextField("");
-		JTextArea output = new JTextArea("");
-		JTextField inputLabel = new JTextField("Input number:");
-		JTextField outputlabel = new JTextField("English Representation:");
-		JTextField banner = new JTextField("Converting Number to Words");
-		JButton exitb = new JButton("Exit");
-		JButton write = new JButton("Write in English");
-		Font font1 = new Font("SansSerif", Font.BOLD, 24);
-		Font font2 = new Font("SansSerif", Font.PLAIN, 16);
-		Font font3 = new Font("SansSerif", Font.PLAIN, 19);
+		
 		banner.setFont(font1);
 		inputLabel.setFont(font2);
 		outputlabel.setFont(font2);
@@ -37,43 +90,31 @@ public class GUIDesign {
 		
 		frame.setSize(400, 350);
 		frame.setResizable(false);
+		
+		
 
 		input.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					if(input.getText().length() == 1 && input.getText() == ".") {
-						output.setText("no numbers");
-					} else if (input.getText().contains(".")) {
-						String s = input.getText().substring(input.getText().indexOf('.') + 1,
-								input.getText().length());
-						if (s.contains(".")) {
-							JOptionPane.showMessageDialog(frame,
-									"You have entered more than one decimal points \n "
-											+ "please make sure your number contains only one \".\"",
-									"Too Many dots", JOptionPane.WARNING_MESSAGE);
-							input.setText("");
-							output.setText("");
-						}else if (s.length() == 1) {
-							s = s + "0";
-							output.setText(processor.getName(input.getText().substring(0, input.getText().indexOf('.')))
-									+ " dollars " + "and " + processor.getName(s) + " cents ");
-						} else {
-							output.setText(processor.getName(input.getText().substring(0, input.getText().indexOf('.')))
-									+ " dollars " + "and " + processor.getName(s) + " cents ");
-						}
-					} else if (input.getText().isEmpty())
-						output.setText("");
-					else
-						output.setText(processor.getName(input.getText()) + " dollars ");
-				} catch (NumberFormatException e1) {
-					JOptionPane.showMessageDialog(frame,
-							"You have entered letters in the input box \n please make sure you ONLY user numbers and \".\"",
-							"letters in input", JOptionPane.WARNING_MESSAGE);
-					input.setText("");
-					output.setText("");
-				}
+				convert();
+			}
+		});
+		
+		
+		exitb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		write.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				convert();
+				
 			}
 		});
 		
